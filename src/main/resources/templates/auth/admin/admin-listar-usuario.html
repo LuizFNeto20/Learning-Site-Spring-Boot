@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spring Boot</title>
+
+    <link rel="stylesheet" th:href="@{/bootstrap-5.3.0-dist/css/bootstrap.min.css}">
+    <script th:src="@{/jquery-3.7.0-dist/jquery-3.7.0.min.js}"></script>
+    <script th:src="@{/bootstrap-5.3.0-dist/js/bootstrap.min.js}"></script>
+    <script th:src="@{/bootstrap-5.3.0-dist/js/bootstrap.bundle.min.js}"></script>
+
+</head>
+
+<body>
+    <div th:replace="auth/auth-generica-nav :: navGenerica"></div>
+
+    <div class="container">
+        <div class="row">
+
+            <div class="col">
+                <h1 th:text="#{user.list}">Lista de Usuários</h1>
+
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th th:text="#{form.name}">Nome</th>
+                            <th th:text="#{form.cpf}">CPF</th>
+                            <th th:text="#{form.birthday}">Nascimento</th>
+                            <th th:text="#{form.login}">Login</th>
+                            <th th:text="#{form.email}">E-mail</th>
+                            <th th:text="#{admin.editar.papel.usuario.roles}">Papel</th>
+                            <th th:text="#{admin.editar.papel.usuario.active}">Ativo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:if="${usuarios.empty}">
+                            <td colspan="2">Sem usuários</td>
+                        </tr>
+                        <tr th:each="usuario : ${usuarios}">
+                            <td>
+                                <span th:text="${usuario.id}"> ID </span>
+                            </td>
+
+                            <td>
+                                <span th:text="${usuario.nome}" > Nome </span>
+                            </td>
+                            <td>
+                                <span th:text="${usuario.cpf}" > Cpf </span>
+                            </td>
+                            <td>
+                                <span th:text="${#dates.format(usuario.dataNascimento, 'dd/MM/yyyy')}">Nascimento</span>
+                            </td>
+                            <td>
+                                <span th:text="${usuario.login}" > login </span>
+                            </td>
+                            <td>
+                                <span th:text="${usuario.email}" > E-mail </span>
+                            </td>
+
+                            <td>
+                                <th:block th:each="pp : ${usuario.papeis}">
+                                    <span th:text="${pp.papel}"> papel </span>
+                                </th:block>
+                            </td>
+
+                            <td>
+                                <span th:text="${usuario.ativo} ? 'ATIVO' : 'NÃO ATIVO'"> Ativo? </span>
+                            </td>
+
+                            <td>
+                                <a class="btn btn-outline-danger btn-sm"
+                                    th:href="@{/usuario/admin/apagar/{id}(id=${usuario.id})}"
+                                    th:data-confirm-delete="|Você gostaria de apagar ${usuario.nome}?|"
+                                    onclick="if (!confirm(this.getAttribute('data-confirm-delete'))) return false" th:text="#{admin.listar.usuario.delete}">
+                                    Apagar
+                                </a>
+                            </td>
+
+                            <td>
+                                <a class="btn btn-outline-primary btn-sm"
+                                    th:href="@{/usuario/editar/{id}(id=${usuario.id})}" th:text="#{admin.editar.papel.usuario.edit}">
+                                    Editar
+                                </a>
+                            </td>
+
+                            <td>
+                                <a class="btn btn-outline-success btn-sm"
+                                    th:href="@{/usuario/editarPapel/{id}(id=${usuario.id})}" th:text="#{admin.editar.papel.usuario.roles}">
+                                    Papéis
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+
+</body>
+
+</html>

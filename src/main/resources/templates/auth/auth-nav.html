@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<body>
+
+    <ul th:fragment="nav" class="nav navbar-nav ms-auto">
+        <li class="nav-item dropdown">
+            <a href="#" class="nav-link dropdown-toggle text-light" data-bs-toggle="dropdown">
+                <span th:text="${#authentication.getPrincipal().getNameUsuario()}">Nome </span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-end">
+                <a class="dropdown-item" href="#" th:text="#{admin.editar.papel.usuario.edit}">
+                    Editar
+                </a>
+                <a href="#" class="dropdown-item" th:text="#{auth.nav.password}">Alterar senha</a>
+                <div class="dropdown-divider"></div>
+                <a href="/logout" class="dropdown-item" th:text="#{auth.nav.logout}">Sair</a>
+            </div>
+        </li>
+    </ul>
+
+</body>
+
+</html>
